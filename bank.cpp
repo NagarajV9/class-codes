@@ -32,7 +32,7 @@ class bank
    {
       if(a==acc_no)
       {
-      if(acc_balance<amt)
+      if(acc_balance<amt&&acc_balance-amt>=500)
        {
          cout<<"Sorry! Your account balance is too low to withdraw"<<endl;
          return;
