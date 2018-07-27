@@ -69,10 +69,20 @@ void reversel()
     head=prev;
 }
 
-struct node *reverse(struct node *head,int k)
+struct node *reverse_block(struct node *head,int k)
 {
    struct node *prev=NULL,*next=NULL,*curr=head;
    int count=0;
+    while(curr!=NULL&&count<k)
+    {
+        next=curr->next;
+        curr->next=prev;
+        curr=next;
+        prev=curr;
+    }
+    if(next!=NULL)
+        head->next=reverse_block(next,k);
+    return prev;
 }
 
 int main()
@@ -95,6 +105,7 @@ int main()
     printf("\nAfter reversing\n");
     reversel();
     display();
-    reverse_block(head,3);
+    head=reverse_block(head,3);
+    display();
     return 0;
 }
