@@ -1,48 +1,46 @@
-#include<iostream>
+#include<bits/stdc++.h>
 #include<map>
-#include<string>
-
+#include<iterator>
 using namespace std;
 
 class student
 {
-   int no;
-   string name;
-   public:
-   map<int,string> stud_list;
-   map<int,string>::iterator it;
-   void add()
+  int rollno;
+  string name;
+  public:
+  student(string na,int rn)
   {
-      cout<<"Enter the roll no";
-      cin>>no;
-      cout<<"Enter the name";
-      cin>>name;
-      stud_list.insert(pair<int,string> (no,name));
-   }
-   void num(int n)
-   {
-      for(it=stud_list.begin();it!=stud_list.end();it++)
-       if(it->first==n)
-       {
-            cout<<it->second<<endl;
-        }
-   }
-   void name(string na)
-   {
-      for(it=stud_list.begin();it!=stud_list.end();it++)
-      if(it->second==na)
-        {
-           cout<<it->first<<endl;
-        }
-   }
+      name=na;
+      rollno=rn;
+  }
+  int roll()
+  {
+      return this->rollno;
+  }
+  string nam()
+  {
+      return this->name;
+  }
 };
 
-int main()
-{
-   student o1[5];
-  for(i=0;i<5;i++)
-  {
-     o[i].add();
-  }
-
+int main() {
+    int i,ans;
+	map<int,string> stud_list;
+	student s[5]={student("nagaraj",6562),student("kasi",6532),student("Ajay",6561),student("Akshay",6563),student("Aakash",6502)};
+	map<int,string>::iterator it;
+	for(i=0;i<5;i++)
+	{
+	stud_list.insert(pair<int,string> (s[i].roll(),s[i].nam()));
+	}
+	string step;
+	cin>>step;
+	cin>>ans;
+	for(it=stud_list.begin();it!=stud_list.end();it++)
+	{
+	    if(it->second==step)
+	    cout<<it->first<<endl;
+	    if(it->first==ans)
+	    cout<<it->second<<endl;
+	}
+	return 0;
 }
