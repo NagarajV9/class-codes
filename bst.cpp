@@ -1,117 +1,150 @@
-#include<bits/stdc++.h>
+#include<iostream>
+
 using namespace std;
 
-struct node
+class BST
 {
-   int data;
-   node *left;
-   node *right;
-}*root;
+    struct node
+    {
+        int data;
+        node* left;
+        node* right;
+    };
 
-class bst
-{
-   public:
-    node *insert(node *root,int data)
-   {
-        if(root==NULL)
-         {
-             root=new node[1];
-             root->data=data;
-             root->left=NULL;
-             root->right=NULL;
-             return root;
-         }
-        if(root->data>data)
+    node* root;
+
+
+    node* insert(int x, node* t)
+    {
+        if(t == NULL)
         {
-             root->left=insert(root->left,data);
+            t = new node;
+            t->data = x;
+            t->left = t->right = NULL;
         }
-        else if(root->data<data)
+        else if(x < t->data)
+            t->left = insert(x, t->left);
+        else if(x > t->data)
+            t->right = insert(x, t->right);
+        return t;
+    }
+
+    node* findMin(node* t)
+    {
+        if(t == NULL)
+            return NULL;
+        else if(t->left == NULL)
+            return t;
+        else
+            return findMin(t->left);
+    }
+
+    node* findMax(node* t)
+    {
+        if(t == NULL)
+            return NULL;
+        else if(t->right == NULL)
+            return t;
+        else
+            return findMax(t->right);
+    }
+
+    node* remove(int x, node* t)
+    {
+        node* temp;
+        if(t == NULL)
+            return NULL;
+        else if(x < t->data)
+            t->left = remove(x, t->left);
+        else if(x > t->data)
+            t->right = remove(x, t->right);
+        else if(t->left && t->right)
         {
-             root->right=insert(root->right,data);
-        }
-        return root;
-   }
-   node *findmin(node *root)
-   {
-        node *temp=root;
-	while(temp->left!=NULL)
-	   temp=temp->left;
-	return temp;
-   }
-   node *findmax(node *root)
-   {
-        node *temp;
-        if(root->right==NULL)
-        {
-             temp=root;
+            temp = findMin(t->right);
+            t->data = temp->data;
+            t->right = remove(t->data, t->right);
         }
         else
         {
-             findmax(root->right);
+            temp = t;
+            if(t->left == NULL)
+                t = t->right;
+            else if(t->right == NULL)
+                t = t->left;
+            delete temp;
         }
-   }
-   node *delet(node *root,int data)
-   {
-        node *temp;
-        if(root==NULL)
-	{
-	   cout<<"Element not found\n";
-	   return NULL;
-	}
-	else if(data>root->data)
-	{
-              root->right=delet(root->right,data);
-	}
-	else if(data<root->data)
-	{
-              root->left=delet(root->left,data);
-	}
-	else
-	{
-	   if(root->left&&root->right)
-	   {
-               temp=this->findmin(root->right);
-	       root->data=temp->data;
-	       root->right=delet(root->right,root->data);
-	   }
-	   else 
-           {
-	       temp=root;
-	       if(root->right==NULL)
-		  root=root->left;
-	       else
-	          root=root->right;
-	       delete temp;
-	   }
-	}
-         return root;
-   }
-   void inorder(node *root)
-   {
-       if(root==NULL)
-         return;
-       else
-       {
-           inorder(root->left);
-	   cout<<root->data<<endl;
-	   inorder(root->right);
-        }
-   }
+
+        return t;
+    }
+
+    void inorder(node* t)
+    {
+        if(t == NULL)
+            return;
+        inorder(t->left);
+        cout << t->data << " ";
+        inorder(t->right);
+    }
+
+    node* find(node* t, int x)
+    {
+        if(t == NULL)
+            return NULL;
+        else if(x < t->data)
+            return find(t->left, x);
+        else if(x > t->data)
+            return find(t->right, x);
+        else
+            return t;
+    }
+
+public:
+    BST()
+    {
+        root = NULL;
+    }
+
+    ~BST()
+    {
+        root = makeEmpty(root);
+    }
+
+    void insert(int x)
+    {
+        root = insert(x, root);
+    }
+
+    void remove(int x)
+    {
+        root = remove(x, root);
+    }
+
+    void display()
+    {
+        inorder(root);
+        cout << endl;
+    }
+
+    void search(int x)
+    {
+        root = find(root, x);
+    }
 };
 
 int main()
 {
-        bst t;
-        node *ad,*root=NULL;
-        root=t.insert(root,2);
-	root=t.insert(root,4);
-	root=t.insert(root,1);
-        t.inorder(root);
-        ad=t.findmin(root);
-        cout<<ad->data<<endl;
-        root=t.delet(root,2);
-	t.inorder(root);
-        root=t.insert(root,7);
-        return 0;
+    BST t;
+    t.insert(20);
+    t.insert(25);
+    t.insert(15);
+    t.insert(10);
+    t.insert(30);
+    t.display();
+    t.remove(20);
+    t.display();
+    t.remove(25);
+    t.display();
+    t.remove(30);
+    t.display();
 }
                                                                                                                                                                                                                                                                                                            
